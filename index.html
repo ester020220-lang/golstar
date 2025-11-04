@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Gol Star Balones</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .barra-mensajes {
+      background-color: #bb86fc;
+      color: #120744;
+      text-align: center;
+      padding: 8px 10px;
+      font-weight: bold;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1000;
+    }
+
+    header {
+      background-color: #120744;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 40px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      width: 110px;
+      height: auto;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      font-size: 44px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #bb86fc;
+    }
+
+    .barra-opciones {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .barra-busqueda {
+      display: flex;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .barra-busqueda input {
+      border: none;
+      padding: 6px 12px;
+      outline: none;
+    }
+
+    .barra-busqueda button {
+      background-color: #bb86fc;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+
+    .motivacion {
+      background-image: url('img/fondo.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
+      color: white;
+      text-align: center;
+      position: relative;
+    }
+
+    .motivacion::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(18, 7, 68, 0.6);
+      z-index: 0;
+    }
+
+    .contenido-motivacion {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      margin: auto;
+    }
+
+    .contenido-motivacion h2 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    .contenido-motivacion p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .boton-compra {
+      background-color: #bb86fc;
+      color: #120744;
+      text-decoration: none;
+      padding: 15px 30px;
+      font-weight: bold;
+      border-radius: 30px;
+      transition: background-color 0.3s ease;
+    }
+
+    .boton-compra:hover {
+      background-color: #d1b3ff;
+    }
+
+    .categorias {
+      padding: 60px 40px;
+      text-align: center;
+      background-color: #fff;
+    }
+
+    .categorias h2 {
+      font-size: 32px;
+      color: #120744;
+      margin-bottom: 40px;
+      text-transform: uppercase;
+    }
+
+    .grid-categorias {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .categoria {
+      background-color: #f5f0ff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(75, 0, 130, 0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .categoria:hover {
+      transform: translateY(-8px);
+    }
+
+    .categoria img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .categoria h3 {
+      font-size: 18px;
+      color: #4b0082;
+      margin: 0;
+    }
+
+    .mejores-productos {
+      background-color: #fdfbff;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .mejores-productos h2 {
+      font-size: 32px;
+      color: #120744;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+
+    .slider-wrapper {
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .slider-container {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .productos-slider {
+      display: flex;
+      gap: 20px;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .producto {
+      min-width: 250px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      padding: 15px;
+      flex-shrink: 0;
+      text-align: center;
+    }
+
+    .producto img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .producto h3 {
+      font-size: 18px;
+      color: #1d114d;
+      margin: 10px 0 5px;
+    }
+
+    .producto .categoria {
+      font-size: 14px;
+      color: #888;
+      margin: 0;
+    }
+
+    .producto .precio {
+      font-size: 16px;
+      font-weight: bold;
+      color: #4b0082;
+      margin-top: 8px;
+    }
+
+    .flecha {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #bb86fc;
+      color: white;
+      border: none;
+      font-size: 24px;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .flecha.izquierda {
+      left: -10px;
+    }
+
+    .flecha.derecha {
+      right: -10px;
+    }
+
+    .flecha:hover {
+      background-color: #9d6fe9;
+    }
+
+    .botones-flotantes {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 999;
+    }
+
+    .boton-flotante {
+      background-color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .boton-flotante:hover {
+      transform: scale(1.1);
+    }
+
+    .boton-flotante img {
+      width: 60%;
+      height: 60%;
+      object-fit: contain;
+    }
+
+    .boton-instagram {
+      background: linear-gradient(45deg, #feda75, #d62976, #962fbf, #4f5bd5);
+    }
+
+
+   .personaliza-balones {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #f8f8f8;
+}
+
+.personaliza-balones h2 {
+  font-size: 2em;
+  margin-bottom: 18px;
+  color: #4232cc;
+}
+
+.personaliza-balones .descripcion {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  color: #42374d;
+  font-size: 1.1em;
+}
+
+/* ✅ Tres columnas fijas */
+.galeria-balones {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  justify-items: center;
+}
+
+.balon {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 500px;
+}
+
+.balon:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.balon img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+.balon h3 {
+  margin: 25px 0 8px;
+  color: #695f8f;
+}
+
+.balon p {
+  color: #777;
+  margin-bottom: 15px;
+}
+@media (max-width: 900px) {
+  .galeria-balones {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .galeria-balones {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+  </style>
+</head>
+<body>
+
+  <div class="barra-mensajes">
+    <p id="mensaje-rotativo">🚚 Envíos a todo el país 🇨🇴</p>
+  </div>
+
+  <header>
+    <div class="logo">
+      <img src="img/golstar-logo.png" alt="Gol Star">
+      <div class="logo-text">Gol Star</div>
+    </div>
+    <div class="barra-opciones">
+      <form class="barra-busqueda">
+        <input type="text" placeholder="Buscar productos...">
+        <button type="submit"><i class="fas fa-search"></i> Buscar</button>
+      </form>
+      <a href="#" title="Carrito de compras">
+        <i class="fas fa-shopping-cart" style="font-size: 24px; color: white;"></i>
+      </a>
+    </div>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="futbol.html">Productos</a> <!-- ✅ Redirige a página de productos -->
+      <a href="#">Contacto</a>
+    </nav>
+  </header>
+
+  <section class="motivacion">
+    <div class="contenido-motivacion">
+      <h2>¡Haz que cada jugada cuente!</h2>
+      <p>En Gol Star creemos que el fútbol no es solo un deporte, es pasión, disciplina y gloria. ¡Entrena con los mejores balones!</p>
+      <a href="futbol.html" class="boton-compra">Conoce el catálogo</a> <!-- ✅ Redirige a productos -->
+    </div>
+  </section>
+
+
+
+<section class="personaliza-balones">
+  <h2>Personaliza tus balones</h2>
+  <p class="descripcion">
+    Crea un balón único con tu logo, nombre o diseño favorito. 
+    Elige el deporte, el color y los detalles que reflejen tu estilo.
+  </p>
+
+  <div class="galeria-balones">
+    <div class="balon">
+      <img src="img/balonper1.jpg" alt="Balón personalizado de fútbol">
+      <h3>Balón evento deportivo</h3>
+      <p>Diseño con logo y nombre</p>
+    </div>
+    <div class="balon">
+      <img src="img/balonper2.jpg" alt="Balón personalizado rojo">
+      <h3>Balón club deportivo</h3>
+      <p>Color y escudo personalizados</p>
+    </div>
+    <div class="balon">
+      <img src="img/balonper3.jpg" alt="Balón con nombre impreso">
+      <h3>Balón corporativo</h3>
+      <p>Nombre impreso en el panel central</p>
+    </div>
+
+    <div class="balon">
+      <img src="img/balonper4.jpg" alt="Balón de voleibol personalizado">
+      <h3>Balón con marca</h3>
+      <p>Logo y colores a elección</p>
+    </div>
+    <div class="balon">
+      <img src="img/balonper5.jpg" alt="Balón de baloncesto personalizado">
+      <h3>Balón universidad</h3>
+      <p>Personalizado con iniciales</p>
+    </div>
+    <div class="balon">
+      <img src="img/balonper6.jpg" alt="Balón blanco con diseño especial">
+      <h3>Balón Edición especial</h3>
+      <p>Diseño exclusivo para tu equipo</p>
+    </div>
+
+    <div class="balon">
+      <img src="img/balonper7.jpg" alt="Balón con colores personalizados">
+      <h3>Balón colegio</h3>
+      <p>Combina tus tonos favoritos</p>
+    </div>
+    <div class="balon">
+      <img src="img/personalizado8.jpg" alt="Balón dorado personalizado">
+      <h3>Balón Dorado</h3>
+      <p>Ideal para trofeos o regalos</p>
+    </div>
+    <div class="balon">
+      <img src="img/personalizado9.jpg" alt="Balón negro personalizado">
+      <h3>Balón Negro Gol Star</h3>
+      <p>Con logo y detalles únicos</p>
+    </div>
+  </div>
+</section>
+
+
+
+
+  <div class="botones-flotantes">
+    <a class="boton-flotante" href="https://wa.link/xolkw9" target="_blank" title="WhatsApp">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    </a>
+    <a class="boton-flotante boton-instagram" href="https://www.instagram.com/gooolstar" target="_blank" title="Instagram">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+    </a>
+  </div>
+
+  <script>
+    const slider = document.querySelector('.productos-slider');
+    const leftBtn = document.querySelector('.flecha.izquierda');
+    const rightBtn = document.querySelector('.flecha.derecha');
+    let scrollX = 0;
+    const paso = 270;
+    const maxScroll = () => slider.scrollWidth - document.querySelector('.slider-container').offsetWidth;
+
+    leftBtn.addEventListener('click', () => {
+      scrollX -= paso;
+      if (scrollX < 0) scrollX = 0;
+      slider.style.transform = `translateX(-${scrollX}px)`;
+    });
+
+    rightBtn.addEventListener('click', () => {
+      scrollX += paso;
+      if (scrollX > maxScroll()) scrollX = maxScroll();
+      slider.style.transform = `translateX(-${scrollX}px)`;
+    });
+
+    const mensajes = [
+      "🚚 Envíos a todo el país 🇨🇴",
+      "⚽ Balones desde $15.000",
+      "🛒 Ventas al por mayor y al detal"
+    ];
+    let mensajeActual = 0;
+    const mensajeElemento = document.getElementById("mensaje-rotativo");
+
+    setInterval(() => {
+      mensajeActual = (mensajeActual + 1) % mensajes.length;
+      mensajeElemento.textContent = mensajes[mensajeActual];
+    }, 3000);
+  </script>
+
+</body>
+</html>

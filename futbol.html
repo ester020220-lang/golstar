@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Balones Fútbol - Gol Star</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+  
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #fdfbff;
+    }
+
+    header {
+      background-color: #120744;
+      color: white;
+      padding: 10px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 60px;
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #bb86fc;
+    }
+
+    .hero {
+      background-image: url('img/fondo-futbol.jpg');
+      background-size: cover;
+      background-position: center;
+      padding: 100px 20px;
+      text-align: center;
+      color: white;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(18, 7, 68, 0.7);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: auto;
+    }
+
+    .hero-content h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+    }
+
+    .opciones {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .opcion {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px 30px;
+      border-radius: 12px;
+      max-width: 300px;
+      text-align: center;
+      color: #120744;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .opcion a {
+      display: inline-block;
+      background-color: #bb86fc;
+      color: #120744;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 16px;
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .opcion a:hover {
+      background-color: #d1b3ff;
+    }
+
+    .opcion p {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .seccion-productos {
+      padding: 90px 40px;
+      text-align: center;
+    }
+
+    .seccion-productos h2 {
+      font-size: 28px;
+      color: #120744;
+      margin-bottom: 80px;
+    }
+
+    .productos-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(580px, 1fr));
+  gap: 15px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 10px;
+}
+
+
+    .producto {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .producto:hover {
+      transform: translateY(-25px);
+    }
+
+    .producto img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 4px;
+    }
+
+    .producto h3 {
+      font-size: 28px;
+      color: #1d114d;
+      margin: 2px 0 1px;
+    }
+
+    .producto .categoria {
+      font-size: 18px;
+      color: #888;
+      margin-top: -2px;
+    }
+
+    .producto .precio {
+      font-size: 28px;
+      font-weight: bold;
+      color: #4b0082;
+      margin-top: -11px;
+    }
+
+    .producto label {
+  display: block;
+  margin-top: 1px;
+  font-size: 19px;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;  /* centra todo horizontalmente */
+  align-items: center;      /* alinea verticalmente */
+  gap: 10px;                /* espacio entre input y botón */
+  margin-top: 10px;
+}
+
+.producto .cantidad {
+  width: 30px;
+  padding: 15px;
+  text-align: center;
+  margin: 8px;
+}
+
+.agregar-carrito {
+  background-color: #120744;
+  color: white;
+  border: none;
+  padding: 15px 22px;
+  border-radius: 5px;
+  margin-top: 1px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.agregar-carrito:hover {
+  background-color: #321a90;
+}
+
+.mini-carrito {
+  position: fixed;
+  top: 0;
+  right: -350px; /* oculto al inicio */
+  width: 300px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+  padding: 20px;
+  transition: right 0.3s ease;
+  z-index: 999;
+}
+
+.mini-carrito.active {
+  right: 0; /* se muestra */
+}
+
+.mini-carrito h2 {
+  margin-top: 0;
+  color: #120744;
+}
+
+.mini-carrito ul {
+  list-style: none;
+  padding: 0;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.mini-carrito li {
+  margin: 8px 0;
+  font-size: 16px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+.acciones-carrito {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.cerrar-carrito,
+.enviar-whatsapp {
+  background-color: #120744; /* mismo morado que el agregar-carrito */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.cerrar-carrito:hover,
+.enviar-whatsapp:hover {
+  background-color: #321a90;
+}
+
+
+
+  </style>
+
+  
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <img src="img/golstar-logo.png" alt="Gol Star">
+      <div class="logo-text">Gol Star</div>
+    </div>
+    <nav>
+      <a href="index.html">Inicio</a>
+    </nav>
+  </header>
+
+  <!-- Sección Hero con botones -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>¿Cuántos balones necesitas?</h1>
+      <p>Escoge una opción según la cantidad de productos que deseas comprar</p>
+      <div class="opciones">
+        <div class="opcion">
+          <a href="#detal">Al detal</a>
+          <p>Ideal si vas a comprar menos de 12 balones</p>
+        </div>
+        <div class="opcion">
+          <a href="#mayor">Al por mayor</a>
+          <p>Perfecto si buscas más de 12 balones</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Sección detal -->
+  <section id="detal" class="seccion-productos">
+    <h2>Compra al detal</h2>
+    <div class="productos-container">
+
+
+          <div class="producto">
+  <img src="img/futboln3.5pre.png">
+  <h3>Balón Micro fútbol #3.5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="35000">$35.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+      <div class="producto">
+  <img src="img/futboln3p.jpg">
+  <h3>Balón fútbol #3 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="30000">$30.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+     <div class="producto">
+  <img src="img/futboln5pre.jpg">
+  <h3>Balón fútbol #5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="40000">$40.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+      <div class="producto">
+  <img src="img/futsal60.62pre.png">
+  <h3>Balón futsal #60-62 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="35000">$35.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+
+<div class="producto">
+  <img src="img/futsal60.64pre.jpg">
+  <h3>Balón futsal #60-64 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="37000">$37.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+      <div class="producto">
+  <img src="img/futsal4pre.png">
+  <h3>Balón fútbol #4 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="38000">$38.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+
+      <div class="producto">
+  <img src="img/voleibol.png">
+  <h3>Balón volleyball #5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="36000">$36.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+
+ 
+      <div class="producto">
+  <img src="img/futboln3estampadopre.jpg">
+  <h3>Balón estampado #3 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="25000">$25.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+       <div class="producto">
+  <img src="img/futboln5estampadopre.jpg">
+  <h3>Balón estampado #5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="40000">$40.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+      <div class="producto">
+  <img src="img/baloncesto.png">
+  <h3>Balón baloncesto </h3>
+  <p class="categoria">Premium: Importado.</p>
+  <p class="precio" data-precio="38000">$38.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+      
+    </div> <!-- cierre productos-container -->
+</section> <!-- cierre sección mayor -->
+
+
+
+<!-- Sección mayor -->
+  <section id="mayor" class="seccion-productos">
+    <h2>Compra al mayor</h2>
+    <div class="productos-container">
+
+
+       <div class="producto">
+  <img src="img/futboln3.5pre.png">
+  <h3>Balón Micro fútbol #3.5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="30000">$30.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+      <div class="producto">
+  <img src="img/futboln3p.jpg">
+  <h3>Balón fútbol #3 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="20000">$20.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+     <div class="producto">
+  <img src="img/futboln5pre.jpg">
+  <h3>Balón fútbol #5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="35000">$35.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+      <div class="producto">
+  <img src="img/futsal60.62pre.png">
+  <h3>Balón futsal #60-62 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="32000">$32.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+
+<div class="producto">
+  <img src="img/futsal60.64pre.jpg">
+  <h3>Balón futsal #60-64 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="34000">$34.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+</div>
+
+      <div class="producto">
+  <img src="img/futsal4pre.png">
+  <h3>Balón fútbol #4 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="34000">$34.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+
+      <div class="producto">
+  <img src="img/voleibol.png">
+  <h3>Balón volleyball #5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="30000">$30.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+
+ 
+      <div class="producto">
+  <img src="img/futboln3estampadopre.jpg">
+  <h3>Balón estampado #3 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="22000">$22.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+       <div class="producto">
+  <img src="img/futboln5estampadopre.jpg">
+  <h3>Balón estampado #5 </h3>
+  <p class="categoria">Premium: Elaborado en hilazas, cuero sintético de alta calidad, neumático de butilo y con colores de gama premium.</p>
+  <p class="precio" data-precio="36000">$36.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+      <div class="producto">
+  <img src="img/baloncesto.png">
+  <h3>Balón baloncesto </h3>
+  <p class="categoria">Premium: Importado.</p>
+  <p class="precio" data-precio="30900">$30.900</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+ 
+
+      <div class="producto">
+  <img src="img/futboln3e.png">
+  <h3>Balón micro fútbol #3 </h3>
+  <p class="categoria">Económico: Elaborado en hilazas, cuero sintético y colores vibrantes.</p>
+  <p class="precio" data-precio="15000">$15.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+     <div class="producto">
+  <img src="img/futboln3estampado.jpg">
+  <h3>Balón micro fútbol #3 estampado </h3>
+  <p class="categoria">Económico: Elaborado en hilazas, cuero sintético y colores vibrantes.</p>
+  <p class="precio" data-precio="18000">$18.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+ 
+     <div class="producto">
+  <img src="img/futboln3.5e.jpg">
+  <h3>Balón fútbol #5 estampado </h3>
+  <p class="categoria">Económico: Elaborado en hilazas, cuero sintético y colores vibrantes.</p>
+  <p class="precio" data-precio="20000">$20.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+      <div class="producto">
+  <img src="img/balon3.5.jpg">
+  <h3>Balón fútbol #3.5  </h3>
+  <p class="categoria">Económico: Elaborado en hilazas, cuero sintético y colores vibrantes.</p>
+  <p class="precio" data-precio="20000">$20.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>
+  </div>
+ </div>
+
+     <div class="producto">
+  <img src="img/futboln5estampado.jpg">
+  <h3>Balón fútbol #5 </h3>
+  <p class="categoria">Económico: Elaborado en hilazas, cuero sintético y colores vibrantes.</p>
+  <p class="precio" data-precio="18500">$18.500</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>   
+
+     </div>
+ </div>
+
+
+    
+     <div class="producto">
+  <img src="img/voleibol.jpg">
+  <h3>Balón voleibol </h3>
+  <p class="categoria">Económico: Elaborado en hilazas, cuero sintético y colores vibrantes.</p>
+  <p class="precio" data-precio="21000">$21.000</p>
+  
+    <div class="acciones">
+    <input type="number" value="1" min="1" class="cantidad">
+    <button class="agregar-carrito">Agregar al carrito</button>  
+
+     </div>
+ </div>
+ 
+    </div> <!-- cierre productos-container -->
+</section> <!-- cierre sección mayor -->
+ 
+
+  <!-- Mini carrito lateral -->
+<div id="mini-carrito" class="mini-carrito">
+  <h2>🛒 Mi Carrito</h2>
+  <ul id="lista-carrito"></ul>
+  <p>Total: $<span id="total">0</span></p>
+
+  <div class="acciones-carrito">
+    <button class="cerrar-carrito" onclick="cerrarCarrito()">Cerrar</button>
+    <button class="enviar-whatsapp" onclick="enviarWhatsapp()">Enviar orden de compra</button>
+  </div>
+</div>
+
+</div>
+
+  
+
+   <!-- Script -->
+
+ ...
+<!-- Todo tu contenido, productos, carrito, etc. -->
+
+<!-- Script -->
+<script>
+  let carrito = [];
+  let total = 0;
+
+  document.querySelectorAll('.agregar-carrito').forEach(boton => {
+    boton.addEventListener('click', function() {
+      const producto = this.closest('.producto');
+      const nombre = producto.querySelector('h3').innerText;
+      const precio = parseInt(
+        producto.querySelector('.precio').innerText
+          .replace('$','')
+          .replace(/\./g,'')
+      );
+      const cantidad = parseInt(producto.querySelector('.cantidad').value);
+
+      carrito.push({ nombre, precio, cantidad });
+      total += precio * cantidad;
+
+      actualizarCarrito();
+      abrirCarrito();
+    });
+  });
+
+  function actualizarCarrito() {
+    const lista = document.getElementById('lista-carrito');
+    lista.innerHTML = '';
+
+    carrito.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = `${item.nombre} x${item.cantidad} - $${(item.precio * item.cantidad).toLocaleString("es-CO")}`;
+      lista.appendChild(li);
+    });
+
+    document.getElementById('total').innerText = total.toLocaleString("es-CO");
+  }
+
+  function abrirCarrito() {
+    document.getElementById('mini-carrito').classList.add('active');
+  }
+
+  function cerrarCarrito() {
+    document.getElementById('mini-carrito').classList.remove('active');
+  }
+
+  function enviarWhatsapp() {
+    if (carrito.length === 0) {
+      alert("El carrito está vacío");
+      return;
+    }
+
+    let mensaje = "Hola, estoy interesado en estos productos:\n\n";
+    carrito.forEach(item => {
+      mensaje += `- ${item.nombre} x${item.cantidad} = $${(item.precio * item.cantidad).toLocaleString("es-CO")}\n`;
+    });
+    mensaje += `\nTotal: $${total.toLocaleString("es-CO")}`;
+
+    // Cambia este número por el de tu empresa
+    let telefono = "573114727606";
+
+    let url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+    window.open(url, "_blank");
+  }
+</script>
+</body>
+</html>
+
+
+
+</div>
+
+    
+    </div>
+  </section>
+
+</body>
+</html>
